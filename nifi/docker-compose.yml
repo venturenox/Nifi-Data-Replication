@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+    nifi:
+      container_name: nifi
+      ports:
+          - 8443:8443
+      restart: on-failure
+      # image: apache/nifi:latest
+      build: nifi/
+      environment:
+        - SINGLE_USER_CREDENTIALS_USERNAME=$NIFI_USER
+        - SINGLE_USER_CREDENTIALS_PASSWORD=$NIFI_PASS
