@@ -11,3 +11,5 @@ services:
       environment:
         - SINGLE_USER_CREDENTIALS_USERNAME=$NIFI_USER
         - SINGLE_USER_CREDENTIALS_PASSWORD=$NIFI_PASS
+      volumes:
+        - ./nifi/conf:/opt/nifi/nifi-current/conf
