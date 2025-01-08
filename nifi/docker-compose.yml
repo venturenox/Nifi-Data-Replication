@@ -1,15 +1,35 @@
 version: "3"
 
 services:
-    nifi:
-      container_name: nifi
-      ports:
-          - 8443:8443
-      restart: on-failure
-      # image: apache/nifi:latest
-      build: nifi/
-      environment:
-        - SINGLE_USER_CREDENTIALS_USERNAME=$NIFI_USER
-        - SINGLE_USER_CREDENTIALS_PASSWORD=$NIFI_PASS
-      volumes:
-        - ./nifi/conf:/opt/nifi/nifi-current/conf
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - $MACHINE_ADMINER_PORT:$ADMINER_PORT
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+  postgres:
+    build: postgres-dev/
+    container_name: postgres
+    ports:
+      - 5432:5432
+    restart: always
+    volumes:
+      - ./db_data/:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_DB_LIST: $POSTGRES_DATABASE_LIST
+      POSTGRES_USER: $POSTGRES_USERNAME
+  nifi:
+    container_name: nifi
+    ports:
+      - 8443:8443
+    restart: on-failure
+    # image: apache/nifi:latest
+    build: nifi/
+    environment:
+      - SINGLE_USER_CREDENTIALS_USERNAME=$NIFI_USER
+      - SINGLE_USER_CREDENTIALS_PASSWORD=$NIFI_PASS
+    volumes:
+      - ./nifi/conf:/opt/nifi/nifi-current/conf

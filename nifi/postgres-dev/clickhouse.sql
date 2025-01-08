@@ -1,0 +1,2 @@
+-- clickhouse command for data dumping
+clickhouse-client -h clickhouse.crewnetics.net --port 9440 --password --secure --query "insert into pr242_crewnetics.dump_table_main select * from crewnetics.dump_table_main;;"
